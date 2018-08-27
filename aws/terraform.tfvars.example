@@ -2,6 +2,8 @@
 aws_access_key = "your-aws-access-key"
 # Amazon AWS Secret Key
 aws_secret_key = "your-aws-secret-key"
+# Amazon Route 53 zone id 
+aws_route53_zone_id = "your-route53-zone-id"
 # Amazon AWS Key Pair Name
 ssh_key_name = "your-aws-key-pair-name"
 # Region where resources should be created
@@ -12,6 +14,8 @@ cluster_name = "tboxapps"
 prefix = "tbox"
 # Admin password to access Rancher
 admin_password = "admin"
+# Rancher domain name
+rancher_domain_name = "rancher.tboxapps.uk"
 # rancher/rancher image tag to use
 rancher_version = "latest"
 # Count of agent nodes with role all

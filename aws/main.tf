@@ -15,9 +15,19 @@ variable "aws_secret_key" {
   description = "Amazon AWS Secret Key"
 }
 
+variable "aws_route53_zone_id" {
+  default     = "xxx"
+  description = "Amazon Route 53 primary zone id"
+}
+
 variable "prefix" {
   default     = "yourname"
   description = "Cluster Prefix - All resources created by Terraform have this prefix prepended to them"
+}
+
+variable "rancher_domain_name" {
+  default     = ""
+  description = "ACME domain name for rancher server"
 }
 
 variable "rancher_version" {
@@ -137,6 +147,14 @@ resource "aws_instance" "rancherserver" {
   }
 }
 
+resource "aws_route53_record" "www" {
+  zone_id = "${var.aws_route53_zone_id}"
+  name    = "${var.rancher_domain_name}"
+  type    = "A"
+  ttl     = "60"
+  records = ["${aws_instance.rancherserver.public_ip}"]
+}
+
 data "template_cloudinit_config" "rancheragent-all-cloudinit" {
   count = "${var.count_agent_all_nodes}"
 
@@ -252,6 +270,7 @@ data "template_file" "userdata_server" {
     admin_password        = "${var.admin_password}"
     cluster_name          = "${var.cluster_name}"
     docker_version_server = "${var.docker_version_server}"
+    rancher_domain_name   = "${var.rancher_domain_name}"
     rancher_version       = "${var.rancher_version}"
   }
 }
@@ -270,5 +289,5 @@ data "template_file" "userdata_agent" {
 }
 
 output "rancher-url" {
-  value = ["https://${aws_instance.rancherserver.public_ip}"]
+  value = ["https://${aws_instance.rancherserver.public_ip} or https://${var.rancher_domain_name}"]
 }
