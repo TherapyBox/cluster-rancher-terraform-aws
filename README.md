@@ -18,7 +18,8 @@ This terraform setup will:
 
 - Clone this repository and go into the aws subfolder
 - Move the file `terraform.tfvars.example` to `terraform.tfvars` and edit (see inline explanation)
-- Run `terraform apply`
+- Run `docker run --rm -i -t -v $(pwd):/app/ -w /app/ hashicorp/terraform:light init` once
+- Run `docker run --rm -i -t -v $(pwd):/app/ -w /app/ hashicorp/terraform:light apply` to provision the hosts
 
 When provisioning has finished you will be given the url to connect to the Rancher Server
 
